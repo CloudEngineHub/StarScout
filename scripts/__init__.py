@@ -1,19 +1,24 @@
+import os
+
 import yaml
 
 from scripts.copycatch.iterative import CopyCatchParams
 
 
-with open("secrets.yaml", "r") as f:
-    SECRETS = yaml.safe_load(f)
+# Secrets (optional - not needed for local-only execution)
+if os.path.exists("secrets.yaml"):
+    with open("secrets.yaml", "r") as f:
+        SECRETS = yaml.safe_load(f) or {}
+else:
+    SECRETS = {}
 
-# Secrets
-MONGO_URL: str = SECRETS["mongo_url"]
-GITHUB_TOKENS: list[str] = [x["token"] for x in SECRETS["github_tokens"]]
-BIGQUERY_PROJECT: str = SECRETS["bigquery_project"]
-BIGQUERY_DATASET: str = SECRETS["bigquery_dataset"]
-GOOGLE_CLOUD_BUCKET: str = SECRETS["google_cloud_bucket"]
-NPM_FOLLOWER_POSTGRES: str = SECRETS["npm_follower_postgres"]
-VIRUS_TOTAL_API_KEY: str = SECRETS["virus_total_api_key"]
+MONGO_URL: str = SECRETS.get("mongo_url", "")
+GITHUB_TOKENS: list[str] = [x["token"] for x in SECRETS.get("github_tokens", [])]
+BIGQUERY_PROJECT: str = SECRETS.get("bigquery_project", "")
+BIGQUERY_DATASET: str = SECRETS.get("bigquery_dataset", "")
+GOOGLE_CLOUD_BUCKET: str = SECRETS.get("google_cloud_bucket", "")
+NPM_FOLLOWER_POSTGRES: str = SECRETS.get("npm_follower_postgres", "")
+VIRUS_TOTAL_API_KEY: str = SECRETS.get("virus_total_api_key", "")
 
 # Parameters for running experiments
 START_DATE: str = "190701"
@@ -50,6 +55,9 @@ COPYCATCH_DATE_CHUNKS = [
     ("240101", "240701"),
     ("240401", "241001"),
     ("240701", "250101"),
-    #("241001", "250401"),
-    #("250101", "250701"),
+    ("241001", "250401"),
+    ("250101", "250701"),
+    ("250401", "251001"),
+    ("250701", "260101"),
+    ("251001", "260401"),
 ]
