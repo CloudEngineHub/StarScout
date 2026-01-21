@@ -58,15 +58,16 @@ def enrich_repos_with_github_api(repos: pd.DataFrame) -> pd.DataFrame:
     logging.info(f"Enriching {len(repos)} repos with GitHub API data...")
     logging.info(f"Using {len(GITHUB_TOKENS)} GitHub token(s) for rate limit rotation")
 
-    # Add repo_id column
     from tqdm import tqdm
-    tqdm.pandas(desc="Fetching repo IDs")
     repos = repos.copy()
-    repos.insert(0, "repo_id", repos.repo_name.progress_apply(get_repo_id))
+
+    # Add repo_id column
+    repo_ids = [get_repo_id(name) for name in tqdm(repos.repo_name, desc="Fetching repo IDs")]
+    repos.insert(0, "repo_id", repo_ids)
 
     # Add current star count
-    tqdm.pandas(desc="Fetching current stars")
-    repos["n_stars_latest"] = repos.repo_name.progress_apply(get_repo_n_stars_latest)
+    star_counts = [get_repo_n_stars_latest(name) for name in tqdm(repos.repo_name, desc="Fetching current stars")]
+    repos["n_stars_latest"] = star_counts
 
     # Log summary
     n_found = repos.repo_id.notna().sum()
