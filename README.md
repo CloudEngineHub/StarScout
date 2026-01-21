@@ -55,9 +55,15 @@ The scripts works with Python 3.12 and has only been tested on Ubuntu 22.04.
 
 ## Running the Detector
 
-The detector employs two heuristics: a low-activity heuristic and a lockstep heuristic. Their parameters are defined in [scripts/__init__.py](scripts/__init__.py). Notably, you may wnat to change the `END_DATE` and `COPYCATCH_DATE_CHUNKS` to include latest data. The CopyCatch algorithm for the lockstep heuristic works on half-year chunks as specified in `COPYCATCH_DATE_CHUNKS` and a new chunk should be manually added on a quarterly basis (e.g., add `("240401", "241001")` after Oct 2024).
+The detector employs two heuristics: a low-activity heuristic and a lockstep heuristic. Their parameters are defined in [scripts/__init__.py](scripts/__init__.py). Notably, you may want to change the `END_DATE` and `COPYCATCH_DATE_CHUNKS` to include latest data. The CopyCatch algorithm for the lockstep heuristic works on half-year chunks as specified in `COPYCATCH_DATE_CHUNKS` and a new chunk should be manually added on a quarterly basis (e.g., add `("240401", "241001")` after Oct 2024).
 
-To run the low-acivity heuristic, use:
+### Local Execution (Alternative)
+
+For cost-effective local execution without Google Cloud, see **[scripts/local/README.md](scripts/local/README.md)**. This approach uses DuckDB to query Parquet files directly, eliminating BigQuery costs and avoiding the 6-hour query timeout limit. Significant local storage is needed, however.
+
+### BigQuery Execution (Original)
+
+To run the low-activity heuristic, use:
 
 ```shell
 python -m scripts.dagster.simple_detector_bigquery
