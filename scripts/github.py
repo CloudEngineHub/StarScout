@@ -24,7 +24,8 @@ def get_repo_id(repo: str) -> Optional[str]:
         )
         return result
     except Exception as ex:
-        logging.error(f"Error fetching repo {repo}: {ex}")
+        # Debug level - missing/deleted repos are expected in fake star detection
+        logging.debug(f"Repo not found: {repo} ({ex})")
         return None
 
 
@@ -33,7 +34,8 @@ def get_repo_n_stars_latest(repo: str) -> Optional[int]:
     try:
         return strudel.repo_info(repo)["stargazers_count"]
     except Exception as ex:
-        logging.error(f"Error fetching repo {repo}: {ex}")
+        # Debug level - missing/deleted repos are expected in fake star detection
+        logging.debug(f"Repo not found: {repo} ({ex})")
         return None
 
 
@@ -42,5 +44,5 @@ def get_user_info(user: str) -> dict:
     try:
         return strudel.user_info(user)
     except Exception as ex:
-        logging.error(f"Error fetching user {user}: {ex}")
+        logging.debug(f"User not found: {user} ({ex})")
         return {"error": str(ex)}

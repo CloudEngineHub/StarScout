@@ -19,3 +19,6 @@ data/repo_network.csv
 data/readmes/*.md
 data/*/*.txt
 plots/
+data/gharchive/
+data/_checkpoints/
+.venv/

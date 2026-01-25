@@ -1,0 +1,19 @@
+# Minimal requirements for local execution (scripts/local/)
+# Use this instead of requirements.txt to avoid heavy/unused dependencies
+
+# Core
+pandas
+pyyaml
+tqdm
+requests
+python-dateutil
+
+# Local execution (DuckDB + Parquet)
+pyarrow
+duckdb
+
+# MongoDB export (optional - fails gracefully if not available)
+pymongo
+
+# GitHub API enrichment (optional - fails gracefully if not available)
+strudel.scraper
